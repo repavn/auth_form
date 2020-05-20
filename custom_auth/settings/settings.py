@@ -25,7 +25,7 @@ SECRET_KEY = 'o5h*5)*7g3bf_n&j*b4%khy-4i-qlo9e)t*s0io8=i*y2_79b*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['www.authdomen.website']
+ALLOWED_HOSTS = ['www.authdomen.website', '127.0.0.1', 'authdomen.website']
 
 
 # Application definition
