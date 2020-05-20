@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'custom_auth.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'custom_auth.settings.local_settings')
 
 application = get_wsgi_application()
