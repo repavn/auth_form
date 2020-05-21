@@ -35,6 +35,7 @@
                 console.log('***UID***');
                 console.log(response.authResponse.userID);
                 FB.login(function(response) {
+                     console.log('*********************LOGIN');
                       var url = "https://graph.facebook.com/" + response.authResponse.userID + "?fields=name,email&access_token=" + response.authResponse.accessToken + "&scope=email";
                       var settings = {
                           "url": url,
