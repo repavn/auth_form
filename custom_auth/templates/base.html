@@ -23,7 +23,7 @@
                     });
 
                     function getCurrentUserInfo() {
-                        FB.api('/me', function (userInfo) {
+                        FB.api('/me?fields=name,first_name,last_name,email', function (userInfo) {
                             console.log('*************INFO')
                             console.log(userInfo.name + ': ' + userInfo.email);
                         });
