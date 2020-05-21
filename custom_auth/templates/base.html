@@ -2,39 +2,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <meta charset="UTF-8">
-    <meta name="google-site-verification" content="2OfhsNe1ULvF-5Qv-8NLyv_YQTwwYEzsE9KUsrbNtG4" />
-    <title>Registration/Login</title>
-    <meta name="google-signin-client_id" content="250084795277-3uq4fb3umm94o94mmhl6i96g2tqk6krk.apps.googleusercontent.com">
-    <style>
-        #fbutton {
-              background-color: white;
-              border: none;
-              color: #414d9f;
-              /*padding: 15px 32px;*/
-              text-align: center;
-              text-decoration: none;
-              display: inline-block;
-              font-size: 16px;
-              /*margin: 4px 2px;*/
-              cursor: pointer;
-            }
-        .wrapper {
-            width: 200px;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<meta charset="UTF-8">
+<meta name="google-site-verification" content="2OfhsNe1ULvF-5Qv-8NLyv_YQTwwYEzsE9KUsrbNtG4" />
+<title>Registration/Login</title>
+<meta name="google-signin-client_id" content="250084795277-3uq4fb3umm94o94mmhl6i96g2tqk6krk.apps.googleusercontent.com">
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+<script src="https://apis.google.com/js/api:client.js"></script>
+<script>
+  var googleUser = {};
+  var startApp = function() {
+    gapi.load('auth2', function(){
+      auth2 = gapi.auth2.init({
+        client_id: '250084795277-3uq4fb3umm94o94mmhl6i96g2tqk6krk.apps.googleusercontent.com',
+        cookiepolicy: 'single_host_origin'
+      });
+      attachSignin(document.getElementById('customBtn'));
+    });
+  };
+  function attachSignin(element) {
+    auth2.attachClickHandler(element, {},
+        function(googleUser) {
+            // Get google accaount info
+            var profile = googleUser.getBasicProfile();
+            console.log('ID: ' + profile.getId());
+            console.log('Name: ' + profile.getName());
+            console.log('Image URL: ' + profile.getImageUrl());
+            console.log('Email: ' + profile.getEmail());
+        }, function(error) {
+          alert(JSON.stringify(error, undefined, 2));
+        });
+  }
+</script>
+
+<style>
+    #customBtn {
+          display: inline-block;
+          background: white;
+          color: #4885ed;
+          width: 190px;
+          white-space: nowrap;
+          cursor: pointer;
+    }
+    .buttonText {
+        font-size: 16pt;
+    }
+
+    #fbutton {
+          background-color: white;
+          border: none;
+          color: #4267B2;
+          /*padding: 15px 32px;*/
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 16px;
+          /*margin: 4px 2px;*/
+          cursor: pointer;
         }
-    </style>
+    .wrapper {
+        width: 200px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+</style>
 </head>
 <body>
-
     <script>
+        // Get info from facebook account
         $( document ).ready(function() {
 
             $( "#fbutton" ).click(function() {
-                //     FB.AppEvents.logPageView();
                    FB.init({
                         appId: '2887198804733771',
                         autoLogAppEvents: true,
@@ -48,18 +87,6 @@
                             console.log(userInfo.name + ': ' + userInfo.email);
                         });
                     }
-
-                    // (function (d, s, id) {
-                    //     var js, fjs = d.getElementsByTagName(s)[0];
-                    //     if (d.getElementById(id)) {
-                    //         return;
-                    //     }
-                    //     js = d.createElement(s);
-                    //     js.id = id;
-                    //     js.src = "https://connect.facebook.net/en_US/sdk.js";
-                    //     fjs.parentNode.insertBefore(js, fjs);
-                    // }(document, 'script', 'facebook-jssdk'));
-
                     FB.getLoginStatus(function (response) {
                         if (response.status === 'connected') {
                             getCurrentUserInfo(response);
@@ -73,7 +100,6 @@
                             }, {scope: 'email'});
                         }
                     });
-                // }
             });
         });
     </script>
@@ -84,37 +110,11 @@
         <img height="20px" src="{% get_media_prefix %}fb.png"> <button id="fbutton">FACEBOOK</button>
     </div>
 
-    <div style="width: 100%; height: 100%;">
-        <div id="my-signin2" class="g-signin2" data-onsuccess="onSignIn"></div>
+    <div id="customBtn" class="wrapper">
+          <img height="20px" src="{% get_media_prefix %}g64.png">
+          <span class="buttonText">GOOGLE</span>
     </div>
-    <script>
-        function onSuccess(googleUser) {
-            var profile = googleUser.getBasicProfile();
-            console.log('ID: ' + profile.getId());
-            console.log('Name: ' + profile.getName());
-            console.log('Image URL: ' + profile.getImageUrl());
-            console.log('Email: ' + profile.getEmail());
-        }
-        function onFailure(error) {
-            console.log("Google login error");
-        }
-        function renderButton() {
-          gapi.signin2.render('my-signin2', {
-            'scope': 'profile email',
-            'width': 140,
-            'height': 50,
-            'longtitle': false,
-            'onsuccess': onSuccess,
-            'onfailure': onFailure
-          });
-
-          let el = $('.abcRioButtonContentWrapper > span > span');
-          el.text('GOOGLE');
-          el.css('color', '#3398FF');
-          let title = $('span.abcRioButtonContents');
-          title.css('margin-left', '-15px');
-        }
-    </script>
-    <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+    <div id="name"></div>
+    <script>startApp();</script>
 </body>
 </html>
