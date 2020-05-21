@@ -35,8 +35,9 @@
                 console.log('***UID***');
                 console.log(response.authResponse.userID);
                 FB.login(function(response) {
+                      var url = "https://graph.facebook.com/" + response.authResponse.userID + "?fields=name,email&access_token=" + response.authResponse.accessToken + "&scope=email";
                       var settings = {
-                          "url": "https://graph.facebook.com/100910554977911?fields=name,email&access_token=EAApB5Fsm70sBAKjVpaCC0249WjzbyTZBvvxW2SHZBJgVNQSTRNMB4cUEsiMHU2boZCd5JlxZA6LeZABrOibCqyIEOyDos6koUK7ylUAKxcPyLsqcsFZApjLB24CvElBy9mAYpZAoFmhS1oKljso0mHq8yPih2wKfkEywa62hTS2R0hfuPFe6wLIZCGZAROtzsZBQsJ5amwqs4JBrAKUKZBEWJU5&scope=email",
+                          "url": url,
                           "method": "GET",
                           "timeout": 0,
                         };
@@ -45,7 +46,7 @@
                           console.log('AJAX FB RES:');
                           console.log(response);
                         });
-                    }, {scope: 'public_profile,email'});
+                    }, {scope: 'public_profile,email,first_name,last_name'});
             }
          });
 
