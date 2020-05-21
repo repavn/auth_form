@@ -26,13 +26,16 @@
              js = d.createElement(s); js.id = id;
              js.src = "https://connect.facebook.net/en_US/sdk.js";
              fjs.parentNode.insertBefore(js, fjs);
-           }(document, 'script', 'facebook-jssdk'));
-        };
+         }(document, 'script', 'facebook-jssdk'));
 
         FB.getLoginStatus(function(response) {
-                console.log('FB' + response);
-                statusChangeCallback(response);
-        });
+            if (response.status === 'connected') {
+                console.log('***TOKEN***')
+                console.log(response.authResponse.accessToken);
+            }
+         });
+
+      };
     </script>
 
     <div id="fb-root"></div>
