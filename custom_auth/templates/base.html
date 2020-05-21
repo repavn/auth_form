@@ -14,14 +14,13 @@
         $( document ).ready(function() {
 
             $( "#fbutton" ).click(function() {
-                // window.fbAsyncInit = function () {
-                //     FB.init({
-                //         appId: '2887198804733771',
-                //         autoLogAppEvents: true,
-                //         xfbml: true,
-                //         version: 'v7.0'
-                //     });
                 //     FB.AppEvents.logPageView();
+                   FB.init({
+                        appId: '2887198804733771',
+                        autoLogAppEvents: true,
+                        xfbml: true,
+                        version: 'v7.0'
+                    });
 
                     function getCurrentUserInfo() {
                         FB.api('/me', function (userInfo) {
