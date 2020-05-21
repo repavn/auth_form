@@ -30,8 +30,10 @@
 
         FB.getLoginStatus(function(response) {
             if (response.status === 'connected') {
-                console.log('***TOKEN***')
+                console.log('***TOKEN***');
                 console.log(response.authResponse.accessToken);
+                console.log('***UID***');
+                console.log(response.authResponse.userID);
             }
          });
 
