@@ -6,7 +6,6 @@ body, html{
 .root {
     height: 100%;
     margin: 0;
-    background-image: url('{% get_media_prefix %}1.jpg');
     background-repeat: no-repeat;
     background-size: 100% 100%;
 }

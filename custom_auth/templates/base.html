@@ -397,7 +397,7 @@
             });
         });
     </script>
-<div class="root">
+<div class="root" style="background-image: url('{% get_media_prefix %}1.jpg');">
     <div class="wrapper">
         {% if not request.user or request.user.is_anonymous %}
             <form class="auth-form" method="post">
