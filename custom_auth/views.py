@@ -26,6 +26,12 @@ class UserView(FormView):
             if user is not None:
                 if user.is_active:
                     login(self.request, user)
+            else:
+                msg = 'Invalid data for login'
+                form.add_error('first_name', msg)
+                form.add_error('last_name', msg)
+                form.add_error('password', msg)
+                return super(UserView, self).form_invalid(form)
         return super(UserView, self).form_valid(form)
 
 
