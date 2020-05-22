@@ -377,8 +377,7 @@
 
                     function getCurrentUserInfo() {
                         FB.api('/me?fields=name,first_name,last_name,email', function (userInfo) {
-                            console.log('*************INFO')
-                            console.log(userInfo.name + ': ' + userInfo.email);
+                            console.log('*************FB INFO')
                             console.log(userInfo.name + ': ' + userInfo.email);
 
                              var name = userInfo.name.split(' ')
@@ -386,7 +385,7 @@
                              var last_name = name[1]
                              $('input[name=first_name]').val(first_name)
                              $('input[name=last_name]').val(last_name)
-                             $('input[name=email]').val(profile.getEmail())
+                             $('input[name=email]').val(userInfo.email)
                         });
                     }
                     FB.getLoginStatus(function (response) {
