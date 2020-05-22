@@ -54,7 +54,6 @@
         margin-left: 33%;
         max-height: 1000px;
         max-width: 500px;
-        /*width: 400px;*/
         height: 700px;
         width: 33%;
         background-color: white;
@@ -125,7 +124,45 @@
           display: inline-block;
           font-size: 16px;
           cursor: pointer;
-        }
+    }
+    .or {
+      color: #34444c;
+      text-align: center;
+      font-size: 20px;
+      background-image:linear-gradient(#c7c9c8,#c7c9c8),linear-gradient(#c7c9c8,#c7c9c8);
+      background-size:47% 1px;
+      background-position:center left,center right, center top;
+      background-repeat:no-repeat;
+    }
+    .auth-form{}
+    .form-fields{height: 350px;
+        /*border: 2px solid #c7c9c8;*/
+        width: 80%; margin-left: 10%;}
+    input {
+        font-size: 16pt;
+      width: 100%;
+      padding: 12px 20px;
+      display: inline-block;
+      box-sizing: border-box;
+      border: none;
+    }
+    .input-container {
+      display: flex;
+      width: 100%;
+      margin: 8px;
+      border: 1px solid #c7c9c8;
+    }
+    .icon {
+        height: auto;
+        margin-top: 10px;
+        color: white;
+        max-width: 30px;
+        max-height: 30px;
+        text-align: center;
+        padding: 0;
+        margin-left: 10px;
+         object-fit: cover;
+    }
 </style>
 </head>
 <body>
@@ -166,19 +203,44 @@
     </script>
 <div class="root">
     <div class="wrapper">
-        <div class="top-title">
-            SIGN UP WITH
-        </div>
-        <div class="soc-row">
-            <div class="soc-button">
-                <button id="fbutton" class="soc-font"><img height="20px" src="{% get_media_prefix %}fb.png">&nbsp; &nbsp; FACEBOOK</button>
+        <form class="auth-form">
+            <div class="top-title">
+                SIGN UP WITH
             </div>
-            <div class="soc-slash">/ &nbsp;</div>
-            <div class="soc-button" id="customBtn" >
-                  <img style="margin-top: 2px;" height="17px" src="{% get_media_prefix %}g64.png">
-                  <span class="buttonText soc-font">GOOGLE</span>
+            <div class="soc-row">
+                <div class="soc-button">
+                    <button id="fbutton" class="soc-font"><img height="20px" src="{% get_media_prefix %}fb.png">&nbsp; &nbsp; FACEBOOK</button>
+                </div>
+                <div class="soc-slash">/ &nbsp;</div>
+                <div class="soc-button" id="customBtn" >
+                      <img style="margin-top: 2px;" height="17px" src="{% get_media_prefix %}g64.png">
+                      <span class="buttonText soc-font">GOOGLE</span>
+                </div>
             </div>
-        </div>
+            <p class="or">or</p>
+            <div class="form-fields">
+                <div class="input-container">
+                    <img class="icon" src="{% get_media_prefix %}uicon.jpg">&nbsp;&nbsp;
+                    <input type="text" name="first_name" placeholder="First Name">
+                </div>
+                <div class="input-container">
+                    <img class="icon" src="{% get_media_prefix %}uicon.jpg">&nbsp;&nbsp;
+                    <input type="text" name="last_name" placeholder="Last Name">
+                </div>
+                <div class="input-container">
+                    <img class="icon" src="{% get_media_prefix %}mail_icon.jpg">
+                    <input type="text" name="email" placeholder="Email">
+                </div>
+                <div class="input-container">
+                    <img class="icon" src="{% get_media_prefix %}p_icon.jpg">
+                    <input type="text" name="password" placeholder="Password">
+                </div>
+                <div class="input-container">
+                    <img class="icon" src="{% get_media_prefix %}p_icon.jpg">
+                    <input type="text" name="confirm_password" placeholder="Confirm Password">
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 <script>startApp();</script>
