@@ -30,8 +30,17 @@
             console.log('Name: ' + profile.getName());
             console.log('Image URL: ' + profile.getImageUrl());
             console.log('Email: ' + profile.getEmail());
+
+            var name = profile.getName().split(' ')
+            var first_name = name[0]
+            var last_name = name[1]
+
+            $('input[name=first_name]').val(first_name)
+            $('input[name=last_name]').val(last_name)
+            $('input[name=email]').val(profile.getEmail())
+
         }, function(error) {
-          alert(JSON.stringify(error, undefined, 2));
+            console(JSON.stringify(error, undefined, 2));
         });
   }
 </script>
@@ -71,7 +80,7 @@ body, html{
 .wrapper{
     position: absolute;
     margin-top: 5%;
-    margin-left: 33%;
+    margin-left: 37%;
     max-height: 1000px;
     max-width: 500px;
     height: 700px;
