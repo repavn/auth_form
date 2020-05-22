@@ -10,6 +10,7 @@ class UserForm(forms.ModelForm):
         fields = ['first_name', 'last_name', 'email', 'password']
     action_type = forms.CharField(required=False)
     username = forms.CharField(required=False)
+    confirm_password = forms.CharField(required=True)
 
     def clean(self):
         cleaned_data = super(UserForm, self).clean()
@@ -35,7 +36,8 @@ class UserForm(forms.ModelForm):
             self.add_error('first_name', f'User with "{first_name}" already exists!')
             self.add_error('last_name', f'User with "{last_name}" already exists!')
         elif not user_exists and is_register_new:
-            User.objects.create_user(username, email, password, is_active=True)
+            User.objects.create_user(username, email, password,
+                                     first_name=first_name, last_name=last_name, is_active=True)
             cleaned_data['action_type'] = ACTION_LOGIN
 
         return cleaned_data
