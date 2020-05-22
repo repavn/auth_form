@@ -8,6 +8,7 @@
 <title>Registration/Login</title>
 <meta name="google-signin-client_id" content="250084795277-3uq4fb3umm94o94mmhl6i96g2tqk6krk.apps.googleusercontent.com">
 <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{% static 'custom_auth.css'%}" type="text/css">
 <script src="https://apis.google.com/js/api:client.js"></script>
 <script>
   var googleUser = {};
@@ -36,133 +37,214 @@
 </script>
 
 <style>
-    /* blocks style */
-    body, html{
-        height: 100%;
-        margin: 0;
-    }
-    .root {
-        height: 100%;
-        margin: 0;
-        background-image: url('{% get_media_prefix %}1.jpg');
-        background-repeat: no-repeat;
-        background-size: 100% 100%;
-    }
-    .wrapper{
-        position: absolute;
-        margin-top: 5%;
-        margin-left: 33%;
-        max-height: 1000px;
-        max-width: 500px;
-        height: 700px;
-        width: 33%;
-        background-color: white;
-    }
-    .top-title {
-        height: 40px;
-        margin-left: 19%;
-        width: 80%;
-        padding-top: 35px;
-        padding-left: 89px;
+/* blocks style */
+body, html{
+    height: 100%;
+    margin: 0;
+}
+.root {
+    height: 100%;
+    margin: 0;
+    background-image: url('{% get_media_prefix %}1.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+.wrapper{
+    position: absolute;
+    margin-top: 5%;
+    margin-left: 33%;
+    max-height: 1000px;
+    max-width: 500px;
+    height: 700px;
+    width: 33%;
+    background-color: white;
+}
+.top-title {
+    height: 40px;
+    margin-left: 19%;
+    width: 80%;
+    padding-top: 35px;
+    padding-left: 89px;
 
-        letter-spacing: 1px;
-        word-spacing: 1px;
-        color: #34444c;
-        font-family: Arial, Helvetica, sans-serif;
-        font-weight: 600;
-        text-decoration: none;
-        font-style: normal;
-        font-variant: normal;
-        text-transform: none;
+    letter-spacing: 1px;
+    word-spacing: 1px;
+    color: #34444c;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 600;
+    text-decoration: none;
+    font-style: normal;
+    font-variant: normal;
+    text-transform: none;
 
-    }
-    .soc-row {
-        margin-left: 19%;
-        width: 80%;
-    }
-    .soc-button {
-        margin: 0;
-        width: 35%;
-        display: inline-block;
-        flex-direction: row;
-        align-items: center;
-    }
-    .soc-slash{
-         display: inline-block;
-         width: 25px;
-         font-size: 16pt;
-    }
+}
+.soc-row {
+    margin-left: 19%;
+    width: 80%;
+}
+.soc-button {
+    margin: 0;
+    width: 35%;
+    display: inline-block;
+    flex-direction: row;
+    align-items: center;
+}
+.soc-slash{
+     display: inline-block;
+     width: 25px;
+     font-size: 16pt;
+}
 
-    /* buttons style */
-    #customBtn {
-          display: inline-block;
-          background: white;
-          color: #4885ed;
-          width: 190px;
-          white-space: nowrap;
-          cursor: pointer;
-    }
-    .soc-font{
-        font-family: Arial, Helvetica, sans-serif;
-        letter-spacing: -0.2px;
-        word-spacing: -3.2px;
-        font-weight: 600;
-        text-decoration: none;
-        font-style: normal;
-        font-variant: normal;
-        text-transform: none;
-    }
-    .buttonText {
-        font-size: 14pt;
-        margin-left: 10px;
-    }
-    #fbutton {
-          background-color: white;
-          border: none;
-          color: #4267B2;
-          text-align: center;
-          display: inline-block;
-          font-size: 16px;
-          cursor: pointer;
-    }
-    .or {
-      color: #34444c;
-      text-align: center;
-      font-size: 20px;
-      background-image:linear-gradient(#c7c9c8,#c7c9c8),linear-gradient(#c7c9c8,#c7c9c8);
-      background-size:47% 1px;
-      background-position:center left,center right, center top;
-      background-repeat:no-repeat;
-    }
-    .auth-form{}
-    .form-fields{height: 350px;
-        /*border: 2px solid #c7c9c8;*/
-        width: 80%; margin-left: 10%;}
-    input {
-        font-size: 16pt;
-      width: 100%;
-      padding: 12px 20px;
+/* buttons style */
+#customBtn {
       display: inline-block;
-      box-sizing: border-box;
+      background: white;
+      color: #4885ed;
+      width: 190px;
+      white-space: nowrap;
+      cursor: pointer;
+}
+.soc-font{
+    font-family: Arial, Helvetica, sans-serif;
+    letter-spacing: -0.2px;
+    word-spacing: -3.2px;
+    font-weight: 600;
+    text-decoration: none;
+    font-style: normal;
+    font-variant: normal;
+    text-transform: none;
+}
+.buttonText {
+    font-size: 14pt;
+    margin-left: 10px;
+}
+#fbutton {
+      background-color: white;
       border: none;
-    }
-    .input-container {
-      display: flex;
-      width: 100%;
-      margin: 8px;
-      border: 1px solid #c7c9c8;
-    }
-    .icon {
-        height: auto;
-        margin-top: 10px;
-        color: white;
-        max-width: 30px;
-        max-height: 30px;
-        text-align: center;
-        padding: 0;
-        margin-left: 10px;
-         object-fit: cover;
-    }
+      color: #4267B2;
+      text-align: center;
+      display: inline-block;
+      font-size: 16px;
+      cursor: pointer;
+}
+.or {
+  color: #34444c;
+  text-align: center;
+  font-size: 20px;
+  background-image:linear-gradient(#c7c9c8,#c7c9c8),linear-gradient(#c7c9c8,#c7c9c8);
+  background-size:47% 1px;
+  background-position:center left,center right, center top;
+  background-repeat:no-repeat;
+}
+.auth-form{}
+.form-fields{height: 350px;
+    /*border: 2px solid #c7c9c8;*/
+    width: 80%; margin-left: 10%;}
+input {
+    font-size: 16pt;
+  width: 100%;
+  padding: 12px 20px;
+  display: inline-block;
+  box-sizing: border-box;
+  border: none;
+}
+.input-container {
+  display: flex;
+  width: 100%;
+  margin: 8px;
+  border: 1px solid #c7c9c8;
+}
+.icon {
+    height: auto;
+    margin-top: 10px;
+    color: white;
+    max-width: 30px;
+    max-height: 30px;
+    text-align: center;
+    padding: 0;
+    margin-left: 10px;
+     object-fit: cover;
+}
+
+/* The container */
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  margin-top: 25px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+    color: #555555;
+    font-size: 14pt;
+    margin-left: 5px;
+}
+
+/* Hide the browser's default checkbox */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: white;
+    box-shadow: 2px 4px 5px 0px rgba(217,217,217,1);
+
+}
+.container input ~ .checkmark {
+  background-color: white;
+    box-shadow: 2px 4px 5px 0px rgba(217,217,217,1);
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid #05ba0e;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+
 </style>
 </head>
 <body>
@@ -239,6 +321,12 @@
                     <img class="icon" src="{% get_media_prefix %}p_icon.jpg">&nbsp;&nbsp;
                     <input type="text" name="confirm_password" placeholder="Confirm Password">
                 </div>
+
+                <label class="container">I'd like to receive PlacePass news and offers
+                  <input type="checkbox" checked="checked">
+                  <span class="checkmark"></span>
+                </label>
+
             </div>
         </form>
     </div>
