@@ -14,10 +14,17 @@ class UserForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super(UserForm, self).clean()
-        first_name = cleaned_data['first_name']
-        last_name = cleaned_data['last_name']
-        password = cleaned_data['password']
-        confirm_password = cleaned_data['confirm_password']
+        first_name = cleaned_data.get('first_name')
+        last_name = cleaned_data.get('last_name')
+        password = cleaned_data.get('password')
+        confirm_password = cleaned_data.get('confirm_password')
+
+        if not all((first_name, last_name, password, confirm_password)):
+            msg = 'This field is required'
+            self.add_error('first_name', msg)
+            self.add_error('last_name', msg)
+            return cleaned_data
+
         if password != confirm_password:
             msg = 'passwords do not match'
             self.add_error('password', msg)
