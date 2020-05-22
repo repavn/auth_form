@@ -244,6 +244,25 @@ input {
   transform: rotate(45deg);
 }
 
+a.link-text{
+    color: #009AAB;
+}
+a:link {
+  text-decoration: none;
+}
+
+a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:active {
+  text-decoration: none;
+}
+.hide-text {color: #BBBBBB;}
 
 </style>
 </head>
@@ -326,6 +345,10 @@ input {
                   <input type="checkbox" checked="checked">
                   <span class="checkmark"></span>
                 </label>
+                <p class="simple_text">
+                    <span class="hide-text">By signing up, i agree to the PlacePass</span> <a class="link-text" href="#">Terms of Service</a>
+                    <span class="hide-text">and</span> <a class="link-text" href="#">Privacy Policy</a>
+                </p>
 
             </div>
         </form>
