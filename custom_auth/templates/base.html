@@ -59,6 +59,24 @@
         width: 33%;
         background-color: white;
     }
+    .top-title {
+        height: 40px;
+        margin-left: 19%;
+        width: 80%;
+        padding-top: 35px;
+        padding-left: 89px;
+
+        letter-spacing: 1px;
+        word-spacing: 1px;
+        color: #34444c;
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: 600;
+        text-decoration: none;
+        font-style: normal;
+        font-variant: normal;
+        text-transform: none;
+
+    }
     .soc-row {
         margin-left: 19%;
         width: 80%;
@@ -73,7 +91,7 @@
     .soc-slash{
          display: inline-block;
          width: 25px;
-        font-size: 16pt;
+         font-size: 16pt;
     }
 
     /* buttons style */
@@ -85,22 +103,28 @@
           white-space: nowrap;
           cursor: pointer;
     }
+    .soc-font{
+        font-family: Arial, Helvetica, sans-serif;
+        letter-spacing: -0.2px;
+        word-spacing: -3.2px;
+        font-weight: 600;
+        text-decoration: none;
+        font-style: normal;
+        font-variant: normal;
+        text-transform: none;
+    }
     .buttonText {
         font-size: 14pt;
         margin-left: 10px;
-        font-family: Geneva, Arial, Helvetica, sans-serif;
     }
     #fbutton {
           background-color: white;
           border: none;
           color: #4267B2;
-          /*padding: 15px 32px;*/
           text-align: center;
-          text-decoration: none;
           display: inline-block;
           font-size: 16px;
           cursor: pointer;
-          font-family: Geneva, Arial, Helvetica, sans-serif;
         }
 </style>
 </head>
@@ -142,15 +166,18 @@
     </script>
 <div class="root">
     <div class="wrapper">
+        <div class="top-title">
+            SIGN UP WITH
+        </div>
         <div class="soc-row">
-        <div class="soc-button">
-            <img height="20px" src="{% get_media_prefix %}fb.png"> <button id="fbutton">FACEBOOK</button>
-        </div>
-        <div class="soc-slash">/ &nbsp;</div>
-        <div class="soc-button" id="customBtn" >
-              <img height="17px" src="{% get_media_prefix %}g64.png">
-              <span class="buttonText">GOOGLE</span>
-        </div>
+            <div class="soc-button">
+                <button id="fbutton" class="soc-font"><img height="20px" src="{% get_media_prefix %}fb.png">&nbsp; &nbsp; FACEBOOK</button>
+            </div>
+            <div class="soc-slash">/ &nbsp;</div>
+            <div class="soc-button" id="customBtn" >
+                  <img style="margin-top: 2px;" height="17px" src="{% get_media_prefix %}g64.png">
+                  <span class="buttonText soc-font">GOOGLE</span>
+            </div>
         </div>
     </div>
 </div>
