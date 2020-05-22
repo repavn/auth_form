@@ -6,10 +6,10 @@
 <meta charset="UTF-8">
 <meta name="google-site-verification" content="2OfhsNe1ULvF-5Qv-8NLyv_YQTwwYEzsE9KUsrbNtG4" />
 <title>Registration/Login</title>
+{% if not request.user or request.user.is_anonymous %}
 <meta name="google-signin-client_id" content="250084795277-3uq4fb3umm94o94mmhl6i96g2tqk6krk.apps.googleusercontent.com">
-<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="{% static 'custom_auth.css'%}" type="text/css">
 <script src="https://apis.google.com/js/api:client.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
 <script>
   var googleUser = {};
   var startApp = function() {
@@ -35,7 +35,26 @@
         });
   }
 </script>
+{% endif %}
+<script>
+    $( document ).ready(function() {
+        let hiddens = $("input[name=action_type]");
+        if (hiddens.length) { hiddens.remove(); }
 
+        $( "#login" ).click(function() {
+             let form = $( ".auth-form" );
+             form.append("<input name='action_type' value='{{ ACTION_LOGIN }}' hidden></input>");
+             form.submit();
+        });
+         $( "#register" ).click(function() {
+             let form = $( ".auth-form" );
+             form.append("<input name='action_type' value='{{ ACTION_REGISTER }}' hidden></input>");
+             form.submit();
+
+        });
+    });
+</script>
+<link rel="stylesheet" href="{% static 'custom_auth.css'%}" type="text/css">
 <style>
 /* blocks style */
 body, html{
@@ -153,7 +172,7 @@ body, html{
     /*border: 2px solid #c7c9c8;*/
     width: 80%; margin-left: 10%;}
 input {
-    font-size: 16pt;
+    font-size: 15pt;
   width: 100%;
   padding: 12px 20px;
   display: inline-block;
@@ -305,6 +324,32 @@ button.login {
     height: 50px;
     margin-left: 17px;
 }
+.error {
+    border: 1px solid #FF0000;
+}
+.success{
+    margin-top: 50%;
+    margin-left: 20%;
+    letter-spacing: 1px;
+    word-spacing: 1px;
+    color: #34444c;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 600;
+    font-size: 18pt;
+}
+button.logout{
+  font-family: Arial, Helvetica, sans-serif;
+    letter-spacing: 1px;
+    font-weight: 600;
+  background-color: #af4c51;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 200px;
+  border-radius: 5px;
+}
 </style>
 </head>
 <body>
@@ -345,61 +390,71 @@ button.login {
     </script>
 <div class="root">
     <div class="wrapper">
-        <form class="auth-form" method="post">
-            {% csrf_token %}
-            <div class="top-title">
-                SIGN UP WITH
-            </div>
-            <div class="soc-row">
-                <div class="soc-button">
-                    <button id="fbutton" class="soc-font"><img height="20px" src="{% get_media_prefix %}fb.png">&nbsp; &nbsp; FACEBOOK</button>
+        {% if not request.user or request.user.is_anonymous %}
+            <form class="auth-form" method="post">
+                {% csrf_token %}
+                <div class="top-title">
+                    SIGN UP WITH
                 </div>
-                <div class="soc-slash">/ &nbsp;</div>
-                <div class="soc-button" id="customBtn" >
-                      <img style="margin-top: 2px;" height="17px" src="{% get_media_prefix %}g64.png">
-                      <span class="buttonText soc-font">GOOGLE</span>
+                <div class="soc-row">
+                    <div class="soc-button">
+                        <button id="fbutton" class="soc-font"><img height="20px" src="{% get_media_prefix %}fb.png">&nbsp; &nbsp; FACEBOOK</button>
+                    </div>
+                    <div class="soc-slash">/ &nbsp;</div>
+                    <div class="soc-button" id="customBtn" >
+                          <img style="margin-top: 2px;" height="17px" src="{% get_media_prefix %}g64.png">
+                          <span class="buttonText soc-font">GOOGLE</span>
+                    </div>
                 </div>
-            </div>
-            <p class="or">or</p>
-            <div class="form-fields">
-                <div class="input-container">
-                    <img class="icon" src="{% get_media_prefix %}uicon.jpg">&nbsp;&nbsp;
-                    <input type="text" name="first_name" placeholder="First Name">
-                </div>
-                <div class="input-container">
-                    <img class="icon" src="{% get_media_prefix %}uicon.jpg">&nbsp;&nbsp;
-                    <input type="text" name="last_name" placeholder="Last Name">
-                </div>
-                <div class="input-container">
-                    <img class="icon" src="{% get_media_prefix %}mail_icon.jpg">&nbsp;&nbsp;
-                    <input type="text" name="email" placeholder="Email">
-                </div>
-                <div class="input-container">
-                    <img class="icon" src="{% get_media_prefix %}p_icon.jpg">&nbsp;&nbsp;
-                    <input type="text" name="password" placeholder="Password">
-                </div>
-                <div class="input-container">
-                    <img class="icon" src="{% get_media_prefix %}p_icon.jpg">&nbsp;&nbsp;
-                    <input type="text" name="confirm_password" placeholder="Confirm Password">
-                </div>
+                <p class="or">or</p>
+                <div class="form-fields">
+                    <div class="input-container {% if form.first_name.errors%}error{% endif %}">
+                        <img class="icon" src="{% get_media_prefix %}uicon.jpg">&nbsp;&nbsp;
+                        <input type="text" name="first_name" placeholder="{% if not form.first_name.errors%}First Name{% else %}{{ form.first_name.errors.as_text }}{% endif %}" required>
+                    </div>
+                    <div class="input-container {% if form.last_name.errors%}error{% endif %}">
+                        <img class="icon" src="{% get_media_prefix %}uicon.jpg">&nbsp;&nbsp;
+                        <input type="text" name="last_name" placeholder="{% if not form.last_name.errors%}Last Name{% else %}{{ form.last_name.errors.as_text }}{% endif %}" required>
+                    </div>
+                    <div class="input-container {% if form.email.errors%}error{% endif %}">
+                        <img class="icon" src="{% get_media_prefix %}mail_icon.jpg">&nbsp;&nbsp;
+                        <input type="text" name="email" placeholder="{% if not form.email.errors%}Email{% else %}{{ form.email.errors.as_text }}{% endif %}">
+                    </div>
+                    <div class="input-container">
+                        <img class="icon" src="{% get_media_prefix %}p_icon.jpg">&nbsp;&nbsp;
+                        <input type="password" name="password" placeholder="Password" required>
+                    </div>
+                    <div class="input-container">
+                        <img class="icon" src="{% get_media_prefix %}p_icon.jpg">&nbsp;&nbsp;
+                        <input type="password" name="confirm_password" placeholder="Confirm Password"  required>
+                    </div>
 
-                <label class="container">I'd like to receive PlacePass news and offers
-                  <input type="checkbox" checked="checked">
-                  <span class="checkmark"></span>
-                </label>
-                <p class="simple_text">
-                    <span class="hide-text">By signing up, i agree to the PlacePass</span> <a class="link-text" href="#">Terms of Service</a>
-                    <span class="hide-text">and</span> <a class="link-text" href="#">Privacy Policy</a>
-                </p>
-                <button class="register" type="submit">REGISTER</button>
-                <div class="question-title">
-                    Already have an account?
+                    <label class="container">I'd like to receive PlacePass news and offers
+                      <input type="checkbox" checked="checked">
+                      <span class="checkmark"></span>
+                    </label>
+                    <p class="simple_text">
+                        <span class="hide-text">By signing up, i agree to the PlacePass</span> <a class="link-text" href="#">Terms of Service</a>
+                        <span class="hide-text">and</span> <a class="link-text" href="#">Privacy Policy</a>
+                    </p>
+                    <button id="register" class="register" type="button">REGISTER</button>
+                    <div class="question-title">
+                        Already have an account?
+                    </div>
+                    <button id="login" class="login" type="button">LOG IN</button>
                 </div>
-                <button class="login" type="submit">LOG IN</button>
+            </form>
+            <script>startApp();</script>
+        {% else %}
+            <div class="success">Welcome to our service!
+                <form action="/logout/">
+                    <button class="logout" type="submit" value="logout" >LOGOUT</button>
+                </form>
+
             </div>
-        </form>
+        {% endif %}
     </div>
 </div>
-<script>startApp();</script>
+
 </body>
 </html>
