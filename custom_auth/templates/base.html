@@ -59,11 +59,21 @@
         width: 33%;
         background-color: white;
     }
-    .soc-wrapper {
-        width: 200px;
-        display: flex;
+    .soc-row {
+        margin-left: 19%;
+        width: 80%;
+    }
+    .soc-button {
+        margin: 0;
+        width: 35%;
+        display: inline-block;
         flex-direction: row;
         align-items: center;
+    }
+    .soc-slash{
+         display: inline-block;
+         width: 25px;
+        font-size: 16pt;
     }
 
     /* buttons style */
@@ -76,7 +86,9 @@
           cursor: pointer;
     }
     .buttonText {
-        font-size: 16pt;
+        font-size: 14pt;
+        margin-left: 10px;
+        font-family: Geneva, Arial, Helvetica, sans-serif;
     }
     #fbutton {
           background-color: white;
@@ -87,8 +99,8 @@
           text-decoration: none;
           display: inline-block;
           font-size: 16px;
-          /*margin: 4px 2px;*/
           cursor: pointer;
+          font-family: Geneva, Arial, Helvetica, sans-serif;
         }
 </style>
 </head>
@@ -130,16 +142,18 @@
     </script>
 <div class="root">
     <div class="wrapper">
-        <div class="soc-wrapper">
+        <div class="soc-row">
+        <div class="soc-button">
             <img height="20px" src="{% get_media_prefix %}fb.png"> <button id="fbutton">FACEBOOK</button>
         </div>
-
-        <div id="customBtn" class="soc-wrapper">
-              <img height="20px" src="{% get_media_prefix %}g64.png">
+        <div class="soc-slash">/ &nbsp;</div>
+        <div class="soc-button" id="customBtn" >
+              <img height="17px" src="{% get_media_prefix %}g64.png">
               <span class="buttonText">GOOGLE</span>
         </div>
-        <script>startApp();</script>
+        </div>
     </div>
 </div>
+<script>startApp();</script>
 </body>
 </html>
