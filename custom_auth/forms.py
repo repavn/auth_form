@@ -16,6 +16,13 @@ class UserForm(forms.ModelForm):
         first_name = cleaned_data['first_name']
         last_name = cleaned_data['last_name']
         password = cleaned_data['password']
+        confirm_password = cleaned_data['confirm_password']
+        if password != confirm_password:
+            msg = 'passwords do not match'
+            self.add_error('password', msg)
+            self.add_error('confirm_password', msg)
+            return cleaned_data
+
         email = cleaned_data.get('email')
         username = f'{first_name}_{last_name}'
         cleaned_data['username'] = username
