@@ -4,10 +4,10 @@
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <meta charset="UTF-8">
-<meta name="google-site-verification" content="2OfhsNe1ULvF-5Qv-8NLyv_YQTwwYEzsE9KUsrbNtG4" />
+<meta name="google-site-verification" content="{{ GOOGLE_SITE_KEY }}" />
 <title>Registration/Login</title>
 {% if not request.user or request.user.is_anonymous %}
-<meta name="google-signin-client_id" content="250084795277-3uq4fb3umm94o94mmhl6i96g2tqk6krk.apps.googleusercontent.com">
+<meta name="google-signin-client_id" content="{{ GOOGLE_CLIENT_ID }}">
 <script src="https://apis.google.com/js/api:client.js"></script>
 <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
 <script>
@@ -15,7 +15,7 @@
   var startApp = function() {
     gapi.load('auth2', function(){
       auth2 = gapi.auth2.init({
-        client_id: '250084795277-3uq4fb3umm94o94mmhl6i96g2tqk6krk.apps.googleusercontent.com',
+        client_id: '{{ GOOGLE_CLIENT_ID }}',
         cookiepolicy: 'single_host_origin'
       });
       attachSignin(document.getElementById('customBtn'));
@@ -24,7 +24,6 @@
   function attachSignin(element) {
     auth2.attachClickHandler(element, {},
         function(googleUser) {
-            // Get google accaount info
             var profile = googleUser.getBasicProfile();
             console.log('ID: ' + profile.getId());
             console.log('Name: ' + profile.getName());
@@ -47,7 +46,7 @@
 {% endif %}
 <script>
     $( document ).ready(function() {
-
+        // block "Enter" press
         $('form input').keydown(function (e) {
             if (e.keyCode == 13) {
                 e.preventDefault();
@@ -58,6 +57,7 @@
         let hiddens = $("input[name=action_type]");
         if (hiddens.length) { hiddens.remove(); }
 
+         // Send action type (register/login)
         $( "#login" ).click(function() {
              let form = $( ".auth-form" );
              form.append("<input name='action_type' value='{{ ACTION_LOGIN }}' hidden></input>");
@@ -80,7 +80,7 @@
         $( document ).ready(function() {
             $( "#fbutton" ).click(function() {
                    FB.init({
-                        appId: '2887198804733771',
+                        appId: '{{ FACEBOOK_APP_ID }}',
                         autoLogAppEvents: true,
                         xfbml: true,
                         version: 'v7.0'

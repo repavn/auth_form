@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
 from django.views.generic.edit import FormView
@@ -14,6 +15,9 @@ class UserView(FormView):
         context = super(UserView, self).get_context_data(**kwargs)
         context['ACTION_REGISTER'] = ACTION_REGISTER
         context['ACTION_LOGIN'] = ACTION_LOGIN
+        context['GOOGLE_CLIENT_ID'] = settings.GOOGLE_CLIENT_ID
+        context['GOOGLE_SITE_KEY'] = settings.GOOGLE_SITE_KEY
+        context['FACEBOOK_APP_ID'] = settings.FACEBOOK_APP_ID
         return context
 
     def form_valid(self, form):
