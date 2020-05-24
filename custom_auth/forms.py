@@ -31,7 +31,6 @@ class UserForm(forms.Form):
 
     def clean(self):
         cleaned_data = super(UserForm, self).clean()
-        print('ccccc', cleaned_data)
         common_msg = 'Invalid from data'
         if self.errors:
             raise forms.ValidationError(common_msg)
@@ -65,7 +64,7 @@ class UserForm(forms.Form):
                 UserInfo.objects.create(user=user, receive_news=receive_news)
                 cleaned_data['action_type'] = ACTION_LOGIN
                 if email:
-                    send_mail('Thank you for registering to our site', 'Welcome!', settings, [email])
+                    send_mail('Thank you for registering to our site', 'Welcome!', settings.EMAIL_HOST_USER, [email])
             except Exception as e:
                 # TODO: log or send somewhere
                 logger.exception(str(e))
