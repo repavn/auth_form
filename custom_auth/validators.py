@@ -1,6 +1,6 @@
 import re
 from django import forms
-from custom_auth.costants import NAME_SEARCH_PATTERN
+from custom_auth.constants import NAME_SEARCH_PATTERN
 
 
 def name_validator(value):

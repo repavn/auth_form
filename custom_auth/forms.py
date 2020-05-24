@@ -2,7 +2,7 @@ import logging
 from django import forms
 from django.contrib.auth.models import User
 
-from custom_auth.costants import ACTION_REGISTER, ACTION_LOGIN
+from custom_auth.constants import ACTION_REGISTER, ACTION_LOGIN, THANKS, WELCOME
 from custom_auth.models import UserInfo
 from custom_auth.validators import name_validator
 from mail import send_mail_in_thread
@@ -63,7 +63,7 @@ class UserForm(forms.Form):
                 UserInfo.objects.create(user=user, receive_news=receive_news)
                 cleaned_data['action_type'] = ACTION_LOGIN
                 if email:
-                    send_mail_in_thread('Thank you for registering to our site', 'Welcome!', email)
+                    send_mail_in_thread(THANKS, WELCOME, email)
             except Exception as e:
                 # TODO: log or send somewhere
                 logger.exception(str(e))

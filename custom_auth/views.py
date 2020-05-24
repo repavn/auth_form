@@ -1,9 +1,17 @@
+import logging
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
+
+from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.views.generic.edit import FormView
-from custom_auth.costants import ACTION_REGISTER, ACTION_LOGIN
+
+from custom_auth.constants import ACTION_REGISTER, ACTION_LOGIN
 from custom_auth.forms import UserForm
+from custom_auth.social_auth.google import get_uri_and_state, get_oauth2_tokens, get_user_info, \
+    register_user_from_google
+
+logger = logging.getLogger(__name__)
 
 
 class UserView(FormView):
@@ -42,3 +50,22 @@ class UserView(FormView):
 def logout_view(request):
     logout(request)
     return redirect('/')
+
+
+def google_login(request):
+    uri, state = get_uri_and_state()
+    # save state in session (cookies)
+    request.session[settings.AUTH_STATE_KEY] = state
+    return redirect(uri)
+
+
+def google_auth_redirect(request):
+    req_state = request.GET.get('state')
+    if req_state != request.session[settings.AUTH_STATE_KEY]:
+        return HttpResponse('state is expired', status=401)
+
+    oauth2_tokens = get_oauth2_tokens(request)
+    request.session[settings.AUTH_TOKEN_KEY] = oauth2_tokens
+    user_info = get_user_info(request)
+    register_user_from_google(request, user_info)
+    return redirect(settings.BASE_URI)

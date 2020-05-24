@@ -10,7 +10,10 @@ logger = logging.getLogger(__name__)
 def send_mail_in_thread(subject, message, email):
 
     def mail_send():
-        send_mail(subject, message, settings.EMAIL_HOST_USER, [email])
+        try:
+            send_mail(subject, message, settings.EMAIL_HOST_USER, [email])
+        except Exception as e:
+            logger.warning(str(e))
 
     t = threading.Thread(target=mail_send, daemon=True)
     t.start()
