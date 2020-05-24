@@ -9,7 +9,7 @@ from django.views.generic.edit import FormView
 from custom_auth.constants import ACTION_REGISTER, ACTION_LOGIN
 from custom_auth.forms import UserForm
 from custom_auth.social_auth.google import get_uri_and_state, get_oauth2_tokens, get_user_info, \
-    register_user_from_google
+    register_user_from_google, google_logout
 
 logger = logging.getLogger(__name__)
 
@@ -48,6 +48,7 @@ class UserView(FormView):
 
 
 def logout_view(request):
+    google_logout(request)
     logout(request)
     return redirect('/')
 
