@@ -68,6 +68,9 @@ def google_auth_redirect(request):
     req_state = request.GET.get('state')
     print('------request.build_absolute_uri', request.build_absolute_uri())
     print(f'\nSTATES----------- {req_state} --{request.session[settings.AUTH_STATE_KEY]}---\n')
+
+    if not req_state:
+        return redirect(settings.BASE_URI)
     if req_state != request.session[settings.AUTH_STATE_KEY]:
         return HttpResponse('state is expired', status=401)
 
