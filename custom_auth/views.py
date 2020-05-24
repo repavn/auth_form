@@ -84,7 +84,7 @@ def fb_auth_redirect(request):
     session = OAuth2Session(settings.FACEBOOK_APP_ID, redirect_uri=settings.FB_REDIRECT_URI)
     session.fetch_token(settings.FB_TOKEN_URL, client_secret=settings.FACEBOOK_CLIENT_ID,
                         authorization_response=request.build_absolute_uri())
-    r = session.get('https://graph.facebook.com/me?fields=name,email')
+    r = session.get('https://graph.facebook.com/me?fields=name,email,first_name,last_name')
     register_user_from_socials(request, r.json())
     return redirect(settings.BASE_URI)
 
