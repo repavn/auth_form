@@ -12,6 +12,9 @@ from custom_auth.forms import UserForm
 from custom_auth.social_auth.google import get_uri_and_state, get_oauth2_tokens, get_user_info, \
     register_user_from_google, google_logout
 
+from requests_oauthlib import OAuth2Session
+from requests_oauthlib.compliance_fixes import facebook_compliance_fix
+
 logger = logging.getLogger(__name__)
 
 
@@ -77,35 +80,19 @@ def google_auth_redirect(request):
 
 
 def fb_auth_redirect(request):
-    print('ffffffffff redidrrrrrrrrrrrrrrrrr', )
+    token_url = 'https://graph.facebook.com/oauth/access_token'
+    facebook = OAuth2Session(settings.FACEBOOK_APP_ID)
+    facebook.fetch_token(token_url, client_secret=settings.FACEBOOK_CLIENT_ID, authorization_response=request.build_absolute_uri())
+    r = facebook.get('https://graph.facebook.com/me?fields=name,email')
+    print('------------------FB_DATA', r.json())
     return HttpResponse('OK')
 
 
 def fb_login(request):
-    # Credentials you get from registering a new application
-    client_id = settings.FACEBOOK_APP_ID
-    client_secret = settings.FACEBOOK_CLIENT_ID
-
-    # OAuth endpoints given in the Facebook API documentation
     authorization_base_url = 'https://www.facebook.com/dialog/oauth'
-    token_url = 'https://graph.facebook.com/oauth/access_token'
-    # redirect_uri = 'https://127.0.0.1:8000/fb_auth_redirect/'  # Should match Site URL
     redirect_uri = 'https://authdomen.website/fb_auth_redirect/'  # Should match Site URL
-
-    from requests_oauthlib import OAuth2Session
-    from requests_oauthlib.compliance_fixes import facebook_compliance_fix
-    facebook = OAuth2Session(client_id, redirect_uri=redirect_uri)
-    facebook = facebook_compliance_fix(facebook)
-
+    session = OAuth2Session(settings.FACEBOOK_APP_ID, redirect_uri=redirect_uri)
+    session = facebook_compliance_fix(session)
     # Redirect user to Facebook for authorization
-    authorization_url, state = facebook.authorization_url(authorization_base_url)
-    print('authorization_url', authorization_url)
-
-    # Get the authorization verifier code from the callback url
-    # redirect_response = raw_input('Paste the full redirect URL here:')
-    # # Fetch the access token
-    # facebook.fetch_token(token_url, client_secret=client_secret, authorization_response = redirect_response)
-    # r = facebook.get('https://graph.facebook.com/me?')
-    # print(r.content)
-
-    return HttpResponse('OK')
+    authorization_url, state = session.authorization_url(authorization_base_url)
+    return redirect(authorization_url)
