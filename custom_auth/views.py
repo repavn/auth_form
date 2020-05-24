@@ -59,12 +59,14 @@ def google_login(request):
     uri, state = get_uri_and_state()
     # save state in session (cookies)
     request.session[settings.AUTH_STATE_KEY] = state
+    print(f'---------LOGGGGINNN URI {uri}')
     return redirect(uri)
 
 
 @never_cache
 def google_auth_redirect(request):
     req_state = request.GET.get('state')
+    print('------request.build_absolute_uri', request.build_absolute_uri())
     print(f'\nSTATES----------- {req_state} --{request.session[settings.AUTH_STATE_KEY]}---\n')
     if req_state != request.session[settings.AUTH_STATE_KEY]:
         return HttpResponse('state is expired', status=401)
