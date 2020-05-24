@@ -1,6 +1,8 @@
 import logging
 from django import forms
+from django.conf import settings
 from django.contrib.auth.models import User
+from django.core.mail import send_mail
 
 from custom_auth.costants import ACTION_REGISTER, ACTION_LOGIN
 from custom_auth.models import UserInfo
@@ -62,6 +64,8 @@ class UserForm(forms.Form):
                                                 first_name=first_name, last_name=last_name, is_active=True)
                 UserInfo.objects.create(user=user, receive_news=receive_news)
                 cleaned_data['action_type'] = ACTION_LOGIN
+                if email:
+                    send_mail('Thank you for registering to our site', 'Welcome!', settings, [email])
             except Exception as e:
                 # TODO: log or send somewhere
                 logger.exception(str(e))

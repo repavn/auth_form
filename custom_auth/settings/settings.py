@@ -124,3 +124,11 @@ MEDIA_URL = '/media/'
 GOOGLE_CLIENT_ID = "250084795277-3uq4fb3umm94o94mmhl6i96g2tqk6krk.apps.googleusercontent.com"
 GOOGLE_SITE_KEY = "2OfhsNe1ULvF-5Qv-8NLyv_YQTwwYEzsE9KUsrbNtG4"
 FACEBOOK_APP_ID = '2887198804733771'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
