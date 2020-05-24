@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 
 from django.http import HttpResponse
 from django.shortcuts import redirect
+from django.views.decorators.cache import never_cache
 from django.views.generic.edit import FormView
 
 from custom_auth.constants import ACTION_REGISTER, ACTION_LOGIN
@@ -53,6 +54,7 @@ def logout_view(request):
     return redirect('/')
 
 
+@never_cache
 def google_login(request):
     uri, state = get_uri_and_state()
     # save state in session (cookies)
@@ -60,6 +62,7 @@ def google_login(request):
     return redirect(uri)
 
 
+@never_cache
 def google_auth_redirect(request):
     req_state = request.GET.get('state')
     if req_state != request.session[settings.AUTH_STATE_KEY]:
