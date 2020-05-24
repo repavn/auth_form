@@ -34,7 +34,9 @@ def register_user_from_socials(request, user_info):
                                         last_name=last_name, is_active=True)
         UserInfo.objects.create(user=user)
         if email:
-            send_mail_in_thread(THANKS, WELCOME, email)
+            send_mail_in_thread(THANKS,
+                                f'{WELCOME} Your name - {first_name},'
+                                f' your last name - {last_name} your password {password}', email)
         login(request, user, backend=settings.AUTHENTICATION_BACKENDS[0])
     else:
         login(request, user, backend=settings.AUTHENTICATION_BACKENDS[0])
