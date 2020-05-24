@@ -28,7 +28,6 @@ class UserView(FormView):
         context = super(UserView, self).get_context_data(**kwargs)
         context['ACTION_REGISTER'] = ACTION_REGISTER
         context['ACTION_LOGIN'] = ACTION_LOGIN
-        context['GOOGLE_SITE_KEY'] = settings.GOOGLE_SITE_KEY
         return context
 
     def form_valid(self, form):
