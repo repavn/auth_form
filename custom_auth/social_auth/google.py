@@ -72,7 +72,7 @@ def get_uri_and_state():
     session = OAuth2Session(settings.CLIENT_ID, settings.CLIENT_SECRET,
                             scope=settings.AUTHORIZATION_SCOPE,
                             redirect_uri=settings.AUTH_REDIRECT_URI)
-    uri, state = session.authorization_url(settings.AUTHORIZATION_URL)
+    uri, state = session.create_authorization_url(settings.AUTHORIZATION_URL)
     return uri, state
 
 
