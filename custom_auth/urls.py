@@ -2,12 +2,15 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
+from django.views.generic import TemplateView
 
 from custom_auth.views import UserView, logout_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('logout/', logout_view),
+    path('policy/', TemplateView.as_view(template_name="policy.html"), name='policy'),
+    path('terms/', TemplateView.as_view(template_name="terms.html"), name='terms'),
     path('', UserView.as_view()),
 ]
 
