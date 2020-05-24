@@ -3,12 +3,6 @@ import google.oauth2.credentials
 import googleapiclient.discovery
 from authlib.client import OAuth2Session
 from django.conf import settings
-from django.contrib.auth.models import User
-from django.contrib.auth import login
-
-from custom_auth.constants import THANKS, WELCOME
-from custom_auth.models import UserInfo
-from mail import send_mail_in_thread
 
 logger = logging.getLogger(__name__)
 
@@ -45,26 +39,6 @@ def is_logged_in(request):
 def google_logout(request):
     request.session.pop(settings.AUTH_TOKEN_KEY, None)
     request.session.pop(settings.AUTH_STATE_KEY, None)
-
-
-def register_user_from_google(request, google_user_info):
-    username = google_user_info.get('name', '').replace(' ', '_')
-    email = google_user_info.get('email')
-    if not username:
-        return
-    user = User.objects.filter(username__iexact=username).first()
-    if not user:
-        password = User.objects.make_random_password()
-        user = User.objects.create_user(username, email, password,
-                                        first_name=google_user_info.get('given_name'),
-                                        last_name=google_user_info.get('family_name'), is_active=True)
-        UserInfo.objects.create(user=user)
-        if email:
-            send_mail_in_thread(THANKS, WELCOME, email)
-        login(request, user, backend=settings.AUTHENTICATION_BACKENDS[0])
-    else:
-        login(request, user, backend=settings.AUTHENTICATION_BACKENDS[0])
-    return
 
 
 def get_uri_and_state():

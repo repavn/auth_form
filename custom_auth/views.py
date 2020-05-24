@@ -9,11 +9,12 @@ from django.views.generic.edit import FormView
 
 from custom_auth.constants import ACTION_REGISTER, ACTION_LOGIN
 from custom_auth.forms import UserForm
-from custom_auth.social_auth.google import get_uri_and_state, get_oauth2_tokens, get_user_info, \
-    register_user_from_google, google_logout
+from custom_auth.social_auth.google import get_uri_and_state, get_oauth2_tokens, get_user_info, google_logout
 
 from requests_oauthlib import OAuth2Session
 from requests_oauthlib.compliance_fixes import facebook_compliance_fix
+
+from custom_auth.social_auth.auth import register_user_from_socials
 
 logger = logging.getLogger(__name__)
 
@@ -75,25 +76,22 @@ def google_auth_redirect(request):
     oauth2_tokens = get_oauth2_tokens(request)
     request.session[settings.AUTH_TOKEN_KEY] = oauth2_tokens
     user_info = get_user_info(request)
-    register_user_from_google(request, user_info)
+    register_user_from_socials(request, user_info)
     return redirect(settings.BASE_URI)
 
 
 def fb_auth_redirect(request):
-    token_url = 'https://graph.facebook.com/oauth/access_token'
-    redirect_uri = 'https://authdomen.website/fb_auth_redirect/'  # Should match Site URL
-    facebook = OAuth2Session(settings.FACEBOOK_APP_ID, redirect_uri=redirect_uri)
-    facebook.fetch_token(token_url, client_secret=settings.FACEBOOK_CLIENT_ID, authorization_response=request.build_absolute_uri())
-    r = facebook.get('https://graph.facebook.com/me?fields=name,email')
-    print('------------------FB_DATA', r.json())
-    return HttpResponse('OK')
+    request.session[settings.AUTH_STATE_KEY] = request.GET.get('state')
+    session = OAuth2Session(settings.FACEBOOK_APP_ID, redirect_uri=settings.FB_REDIRECT_URI)
+    session.fetch_token(settings.FB_TOKEN_URL, client_secret=settings.FACEBOOK_CLIENT_ID,
+                        authorization_response=request.build_absolute_uri())
+    r = session.get('https://graph.facebook.com/me?fields=name,email')
+    register_user_from_socials(request, r.json())
+    return redirect(settings.BASE_URI)
 
 
 def fb_login(request):
-    authorization_base_url = 'https://www.facebook.com/dialog/oauth'
-    redirect_uri = 'https://authdomen.website/fb_auth_redirect/'  # Should match Site URL
-    session = OAuth2Session(settings.FACEBOOK_APP_ID, redirect_uri=redirect_uri)
+    session = OAuth2Session(settings.FACEBOOK_APP_ID, redirect_uri=settings.FB_REDIRECT_URI)
     session = facebook_compliance_fix(session)
-    # Redirect user to Facebook for authorization
-    authorization_url, state = session.authorization_url(authorization_base_url)
+    authorization_url, state = session.authorization_url(settings.FB_AUTH_URL)
     return redirect(authorization_url)
