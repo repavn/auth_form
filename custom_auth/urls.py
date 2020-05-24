@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.urls import path
 from django.views.generic import TemplateView
 
-from custom_auth.views import UserView, logout_view, google_login, google_auth_redirect
+from custom_auth.views import UserView, logout_view, google_login, google_auth_redirect, fb_login, fb_auth_redirect
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -13,6 +13,8 @@ urlpatterns = [
     path('terms/', TemplateView.as_view(template_name="terms.html"), name='terms'),
     path('google_login/', google_login),
     path('google_auth_redirect/', google_auth_redirect),
+    path('fb_login/', fb_login),
+    path('fb_auth_redirect/', fb_auth_redirect),
     path('', UserView.as_view()),
 ]
 

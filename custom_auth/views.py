@@ -24,9 +24,7 @@ class UserView(FormView):
         context = super(UserView, self).get_context_data(**kwargs)
         context['ACTION_REGISTER'] = ACTION_REGISTER
         context['ACTION_LOGIN'] = ACTION_LOGIN
-        context['GOOGLE_CLIENT_ID'] = settings.GOOGLE_CLIENT_ID
         context['GOOGLE_SITE_KEY'] = settings.GOOGLE_SITE_KEY
-        context['FACEBOOK_APP_ID'] = settings.FACEBOOK_APP_ID
         return context
 
     def form_valid(self, form):
@@ -76,3 +74,38 @@ def google_auth_redirect(request):
     user_info = get_user_info(request)
     register_user_from_google(request, user_info)
     return redirect(settings.BASE_URI)
+
+
+def fb_auth_redirect(request):
+    print('ffffffffff redidrrrrrrrrrrrrrrrrr', )
+    return HttpResponse('OK')
+
+
+def fb_login(request):
+    # Credentials you get from registering a new application
+    client_id = settings.FACEBOOK_APP_ID
+    client_secret = settings.FACEBOOK_CLIENT_ID
+
+    # OAuth endpoints given in the Facebook API documentation
+    authorization_base_url = 'https://www.facebook.com/dialog/oauth'
+    token_url = 'https://graph.facebook.com/oauth/access_token'
+    # redirect_uri = 'https://127.0.0.1:8000/fb_auth_redirect/'  # Should match Site URL
+    redirect_uri = 'https://authdomen.website/fb_auth_redirect/'  # Should match Site URL
+
+    from requests_oauthlib import OAuth2Session
+    from requests_oauthlib.compliance_fixes import facebook_compliance_fix
+    facebook = OAuth2Session(client_id, redirect_uri=redirect_uri)
+    facebook = facebook_compliance_fix(facebook)
+
+    # Redirect user to Facebook for authorization
+    authorization_url, state = facebook.authorization_url(authorization_base_url)
+    print('authorization_url', authorization_url)
+
+    # Get the authorization verifier code from the callback url
+    # redirect_response = raw_input('Paste the full redirect URL here:')
+    # # Fetch the access token
+    # facebook.fetch_token(token_url, client_secret=client_secret, authorization_response = redirect_response)
+    # r = facebook.get('https://graph.facebook.com/me?')
+    # print(r.content)
+
+    return HttpResponse('OK')
