@@ -81,7 +81,8 @@ def google_auth_redirect(request):
 
 def fb_auth_redirect(request):
     token_url = 'https://graph.facebook.com/oauth/access_token'
-    facebook = OAuth2Session(settings.FACEBOOK_APP_ID)
+    redirect_uri = 'https://authdomen.website/fb_auth_redirect/'  # Should match Site URL
+    facebook = OAuth2Session(settings.FACEBOOK_APP_ID, redirect_uri=redirect_uri)
     facebook.fetch_token(token_url, client_secret=settings.FACEBOOK_CLIENT_ID, authorization_response=request.build_absolute_uri())
     r = facebook.get('https://graph.facebook.com/me?fields=name,email')
     print('------------------FB_DATA', r.json())
