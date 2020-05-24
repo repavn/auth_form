@@ -34,47 +34,6 @@
 <link rel="stylesheet" href="{% static 'custom_auth.css'%}" type="text/css">
 </head>
 <body>
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v7.0"></script>
-<script>
-        // Get info from facebook account
-        $( document ).ready(function() {
-            $( "#fbutton" ).click(function() {
-                   FB.init({
-                        appId: '{{ FACEBOOK_APP_ID }}',
-                        autoLogAppEvents: true,
-                        xfbml: true,
-                        version: 'v7.0'
-                    });
-
-                    function getCurrentUserInfo() {
-                        FB.api('/me?fields=name,first_name,last_name,email', function (userInfo) {
-                            console.log('*************FB INFO')
-                            console.log(userInfo.name + ': ' + userInfo.email);
-
-                             var name = userInfo.name.split(' ')
-                             var first_name = name[0]
-                             var last_name = name[1]
-                             $('input[name=first_name]').val(first_name)
-                             $('input[name=last_name]').val(last_name)
-                             $('input[name=email]').val(userInfo.email)
-                        });
-                    }
-                    FB.getLoginStatus(function (response) {
-                        if (response.status === 'connected') {
-                            getCurrentUserInfo(response);
-                        } else {
-                            FB.login(function (response) {
-                                if (response.authResponse) {
-                                    getCurrentUserInfo(response)
-                                } else {
-                                    console.log('Auth cancelled.')
-                                }
-                            }, {scope: 'email'});
-                        }
-                    });
-            });
-        });
-</script>
 <div class="root" style="background-image: url('{% get_media_prefix %}1.jpg');">
     <div class="wrapper">
         {% if not request.user or request.user.is_anonymous %}
@@ -84,7 +43,7 @@
                     SIGN UP WITH
                 </div>
                 <div class="soc-row">
-                    <div class="soc-button">
+                    <div class="soc-button" onclick="window.location='fb_login/';">
                         <button id="fbutton" class="soc-font"><img height="20px" src="{% get_media_prefix %}fb.png">&nbsp; &nbsp; FACEBOOK</button>
                     </div>
                     <div class="soc-slash">/ &nbsp;</div>
@@ -141,6 +100,5 @@
         {% endif %}
     </div>
 </div>
-
 </body>
 </html>
