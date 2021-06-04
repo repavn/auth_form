@@ -1,4 +1,4 @@
-Django==3.0.6
+Django==3.1.9
 psycopg2==2.8.5
 authlib==0.11
 google-api-python-client
